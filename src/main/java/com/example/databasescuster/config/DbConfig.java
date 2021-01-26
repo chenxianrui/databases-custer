@@ -17,10 +17,14 @@ public class DbConfig {
     @Resource(name = "mysql")
     private ConnectDatabases mysqlConnect;
 
+    @Resource(name = "rapids")
+    private ConnectDatabases rapidsConnect;
+
     @Bean("dbMap")
     public Map<String, ConnectDatabases> dbMap(){
         Map<String, ConnectDatabases> dbMaps = new HashMap<>();
         dbMaps.put("mysql", mysqlConnect);
+        dbMaps.put("rapids", rapidsConnect);
         return dbMaps;
     }
 }

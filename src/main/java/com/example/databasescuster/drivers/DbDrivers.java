@@ -7,4 +7,5 @@ package com.example.databasescuster.drivers;
 public class DbDrivers {
 
     public static final String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";
+    public static final String RAPIDSDB_DRIVER = "com.rapidsdata.jdbcdriver.Driver";
 }

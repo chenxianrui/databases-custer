@@ -1,6 +1,7 @@
 package com.example.databasescuster.databases;
 
 import com.example.databasescuster.dao.DatabaseDao;
+import com.example.databasescuster.dao.DbTable;
 import com.example.databasescuster.dao.Results;
 import com.example.databasescuster.extension.SPI;
 
@@ -20,4 +21,5 @@ public interface ConnectDatabases {
      */
     String connectDb(DatabaseDao databaseDao) throws SQLException;
 
+    void createTable(DbTable dbTable);
 }

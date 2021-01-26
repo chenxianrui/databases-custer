@@ -1,6 +1,7 @@
 package com.example.databasescuster.databases.impl;
 
 import com.example.databasescuster.dao.DatabaseDao;
+import com.example.databasescuster.dao.DbTable;
 import com.example.databasescuster.databases.ConnectDatabases;
 import com.example.databasescuster.drivers.DbDrivers;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class MsqlConnImpl implements ConnectDatabases {
         try {
             Class.forName(DbDrivers.MYSQL_DRIVER);
         } catch (ClassNotFoundException e) {
-            log.info("MySQL驱动加载失败");
+            log.debug("MySQL驱动加载失败");
         }
     }
 
@@ -40,6 +41,10 @@ public class MsqlConnImpl implements ConnectDatabases {
                 "?useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT";
         try {
             Connection conn = DriverManager.getConnection(URL, databaseDao.getUsername(), databaseDao.getPassword());
+            log.info("ip：" + databaseDao.getIp() +
+                    ", port: " + databaseDao.getPort() +
+                    ", database: " + databaseDao.getDatabaseName() +
+                    " 连接成功");
         }catch (Exception e){
             log.debug("ip：" + databaseDao.getIp() +
                     ", port: " + databaseDao.getPort() +
@@ -47,5 +52,10 @@ public class MsqlConnImpl implements ConnectDatabases {
                     " 连接失败");
         }
         return "连接成功";
+    }
+
+    @Override
+    public void createTable(DbTable dbTable) {
+
     }
 }
