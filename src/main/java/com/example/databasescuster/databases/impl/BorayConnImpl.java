@@ -4,6 +4,7 @@ import com.example.databasescuster.dao.DatabaseDao;
 import com.example.databasescuster.dao.DbTable;
 import com.example.databasescuster.databases.ConnectDatabases;
 import com.example.databasescuster.drivers.DbDrivers;
+import com.example.databasescuster.provider.ConnectProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,12 @@ public class BorayConnImpl implements ConnectDatabases {
     private static String SQL = " ";
     private static Connection conn = null;
     private static PreparedStatement pstmt = null;
+    private static ConnectProvider connectProvider;
+    private static String key = " ";
+
+    public BorayConnImpl(){
+        connectProvider = new ConnectProvider();
+    }
 
     static {
         try {
@@ -32,12 +39,14 @@ public class BorayConnImpl implements ConnectDatabases {
 
     @Override
     public synchronized String connectDb(DatabaseDao databaseDao) throws SQLException {
+        key = "rapids:"+databaseDao.getIp()+databaseDao.getPort();
         URL = "jdbc:rdp://" +
                 databaseDao.getIp() +
                 ":" +
                 databaseDao.getPort();
         try {
             conn = DriverManager.getConnection(URL, databaseDao.getUsername(), databaseDao.getPassword());
+            connectProvider.set(key, conn);
             log.info("ip：" + databaseDao.getIp() +
                     ", port: " + databaseDao.getPort() +
                     " 连接成功");

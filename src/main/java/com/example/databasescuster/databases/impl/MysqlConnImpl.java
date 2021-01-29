@@ -4,6 +4,7 @@ import com.example.databasescuster.dao.DatabaseDao;
 import com.example.databasescuster.dao.DbTable;
 import com.example.databasescuster.databases.ConnectDatabases;
 import com.example.databasescuster.drivers.DbDrivers;
+import com.example.databasescuster.provider.ConnectProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,15 @@ import java.sql.SQLException;
  */
 @Slf4j
 @Service("mysql")
-public class MsqlConnImpl implements ConnectDatabases {
+public class MysqlConnImpl implements ConnectDatabases {
 
     private static String URL = " ";
+    private static ConnectProvider connectProvider;
+    private static String key = " ";
+
+    public MysqlConnImpl(){
+        connectProvider = new ConnectProvider();
+    }
 
     static {
         try {
@@ -32,6 +39,7 @@ public class MsqlConnImpl implements ConnectDatabases {
 
     @Override
     public synchronized String connectDb(DatabaseDao databaseDao) throws SQLException {
+        key = "mysql:"+databaseDao.getIp()+databaseDao.getPort()+databaseDao.getDatabaseName();
         URL = "jdbc:mysql://" +
                 databaseDao.getIp() +
                 ":" +
@@ -41,6 +49,7 @@ public class MsqlConnImpl implements ConnectDatabases {
                 "?useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT";
         try {
             Connection conn = DriverManager.getConnection(URL, databaseDao.getUsername(), databaseDao.getPassword());
+            connectProvider.set(key, conn);
             log.info("ip：" + databaseDao.getIp() +
                     ", port: " + databaseDao.getPort() +
                     ", database: " + databaseDao.getDatabaseName() +
