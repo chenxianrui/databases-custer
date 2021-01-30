@@ -4,6 +4,7 @@ import com.example.databasescuster.dao.DatabaseDao;
 import com.example.databasescuster.dao.DbTable;
 import com.example.databasescuster.databases.ConnectDatabases;
 import com.example.databasescuster.drivers.DbDrivers;
+import com.example.databasescuster.factory.SingletonFactory;
 import com.example.databasescuster.provider.ConnectProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class BorayConnImpl implements ConnectDatabases {
     private static String key = " ";
 
     public BorayConnImpl(){
-        connectProvider = new ConnectProvider();
+        connectProvider = SingletonFactory.getInstance(ConnectProvider.class);
     }
 
     static {
